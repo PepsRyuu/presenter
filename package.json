@@ -1,6 +1,6 @@
 {
   "name": "presenter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Extendable JavaScript class that can load snippets of HTML and CSS",
   "main": "presenter.js",
   "scripts": {

@@ -31,29 +31,33 @@ define(function() {
     };
 
     Presenter.extend = function(subobj) {
-        var __extended = function() {
-            Presenter.apply(this, arguments);
-        }
-        __extended.prototype = {};
+        var parent = this.prototype;
+        var prototype = new function(){}
 
         for (var prop in this.prototype) {
-            __extended.prototype[prop] = this.prototype[prop];
+            prototype[prop] = this.prototype[prop];
         }
 
         for (var prop in subobj) {
-            if (__extended.prototype[prop]) {
-                __extended.prototype[prop] = (function(parentFn, childFn) {
+            if (prototype[prop]) {
+                prototype[prop] = (function(parentFn, childFn) {
                     return function() {
                         this.super = parentFn;
                         return childFn.apply(this, arguments);
                     }
-                })(__extended.prototype[prop], subobj[prop])
+                })(prototype[prop], subobj[prop])
             } else {
-                __extended.prototype[prop] = subobj[prop];
+                prototype[prop] = subobj[prop];
             }
         }
 
-        __extended.extend = Presenter.extend;
+        function __extended() {
+            Presenter.apply(this, arguments);
+        }
+
+        __extended.prototype = prototype;
+        __extended.prototype.constructor = __extended;
+        __extended.extend = arguments.callee;
         return __extended;
     }
 
