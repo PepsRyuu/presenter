@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="../node_modules/lamda/lamda.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    require.config({
+        paths: {
+            "presenter": "../presenter",
+        }
+    })
+
+    require(['Test1', "Test1Subclass"], function(Test1, Test1Subclass) {
+        new Test1({}, document.body);
+        new Test1Subclass({}, document.body);
+        new Test1Subclass({}, document.body);
+    })
+</script>
+
+</body>
+</html>

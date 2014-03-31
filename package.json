@@ -1,0 +1,19 @@
+{
+  "name": "presenter",
+  "version": "0.0.1",
+  "description": "Extendable JavaScript class that can load snippets of HTML and CSS",
+  "main": "presenter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PepsRyuu/presenter.git"
+  },
+  "author": "Paul Sweeney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PepsRyuu/presenter/issues"
+  },
+  "homepage": "https://github.com/PepsRyuu/presenter"
+}
