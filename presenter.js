@@ -1,36 +1,75 @@
+/**
+ * Simple presenter class that provides loading for templates and styles.
+ *
+ * @class Presenter
+ */
 define(function() {
 
-    var Presenter = function(options, container) {
-        this.options = options;
-        container.appendChild(this._renderTemplate(this.template));
-        this._renderStyle(this.style);
-        if (this.init) {
-            this.init(options);
+    var renderTemplate = function(template) {
+        if (template) {
+            var fragment = document.createElement("div");
+            fragment.innerHTML = template;
+            this.el = fragment.childNodes[0];
+        } else {
+            this.el = document.createElement("div");
         }
+
+        return this.el;
+    };
+
+    var renderStyle = function(style) {
+        if (style && this.constructor.prototype.__style__ === undefined) {
+            var styletag = document.createElement("style");
+            styletag.textContent = style;
+            this.constructor.prototype.__style__ = styletag;
+            document.head.appendChild(styletag);
+        }
+    };
+
+    var Presenter = function(options) {
+        renderStyle.call(this, this.style);
+        renderTemplate.call(this, this.template);
+        this.init(options);
     }
 
-    Presenter.prototype = {
-
-        _renderTemplate: function(template) {
-            this.el = document.createElement("div");
-            if (template) {
-                this.el.innerHTML = template;
-            }
-            return this.el;
-        },
-
-        _renderStyle: function(style) {
-            if (style && this.constructor.prototype.__style__ === undefined) {
-                var styletag = document.createElement("style");
-                styletag.textContent = style;
-                this.constructor.prototype.__style__ = styletag;
-                document.head.appendChild(styletag);
-            }
-        }
+    /**
+     * Called when the "new" operator is used. 
+     * Passes the constructor options as an argument.
+     *
+     * @method init
+     * @param {Object} options
+     */
+    Presenter.prototype.init = function(options) {
 
     };
 
-    Presenter.extend = function(subobj) {
+    /**
+     * Attaches this presenter to the specified container.
+     *
+     * @method attach
+     * @param {HTMLElement} container
+     */
+    Presenter.prototype.attach = function(container) {
+        container.appendChild(this.el);
+    };
+
+    /**
+     * Removes this presenter from its parent.
+     *
+     * @method detach
+     */
+    Presenter.prototype.detach = function() {
+        this.el.parentNode.removeChild(this.el);
+    };
+
+    /**
+     * Creates a new presenter class extended with the specified properties.
+     *
+     * @method extend
+     * @static
+     * @param {Object} props
+     */
+    Presenter.extend = function(props) {
         var parent = this.prototype;
         var prototype = new function(){}
 
@@ -38,16 +77,16 @@ define(function() {
             prototype[prop] = this.prototype[prop];
         }
 
-        for (var prop in subobj) {
+        for (var prop in props) {
             if (prototype[prop]) {
                 prototype[prop] = (function(parentFn, childFn) {
                     return function() {
                         this.super = parentFn;
                         return childFn.apply(this, arguments);
                     }
-                })(prototype[prop], subobj[prop])
+                })(prototype[prop], props[prop])
             } else {
-                prototype[prop] = subobj[prop];
+                prototype[prop] = props[prop];
             }
         }
 
