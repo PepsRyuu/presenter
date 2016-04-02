@@ -1,1 +1,4 @@
 test
+.travis.yml
+build-tasks.js
+build.sh

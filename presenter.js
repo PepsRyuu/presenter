@@ -39,7 +39,7 @@ define(function() {
      * @method init
      * @param {Object} options
      */
-    Presenter.prototype.init = function(options) {
+    Presenter.prototype.init = function() {
 
     };
 
@@ -73,8 +73,8 @@ define(function() {
         var parent = this.prototype;
         var prototype = new function(){}
 
-        for (var prop in this.prototype) {
-            prototype[prop] = this.prototype[prop];
+        for (var prop in parent) {
+            prototype[prop] = parent[prop];
         }
 
         for (var prop in props) {

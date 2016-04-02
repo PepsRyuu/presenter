@@ -1,5 +1,7 @@
-presenter.js
+presenter.js 
 =========
+
+[![Build Status](https://travis-ci.org/PepsRyuu/presenter.svg?branch=master)](https://travis-ci.org/PepsRyuu/presenter)
 
 Simple presenter class that can be extended and can load CSS and templates.
 
