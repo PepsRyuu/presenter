@@ -15,7 +15,7 @@ node node_modules/uglifyjs/bin/uglifyjs presenter.js \
     --mangle --compress \
     --preamble "/*${LICENSE}*/"
 
-echo "  Output to dist/presenter.js"
+echo "  Output to dist/presenter.min.js"
 
 if [ "$#" -ne 0 ] && [ $1 = "--release" ]
 then
